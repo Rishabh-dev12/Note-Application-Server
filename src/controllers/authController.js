@@ -11,7 +11,7 @@ export const register = async (req, res) => {
 
   const user = await pool.query(
     "INSERT INTO users VALUES ($1,$2,$3,$4,$5) RETURNING *",
-    [uuidv4(), name, email, hashed, userRole],
+    [uuidv4(), name, email, hashed, userRole, new Date().toISOString()],
   );
 
   res.json(user.rows[0]);
