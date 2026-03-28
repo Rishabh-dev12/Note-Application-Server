@@ -10,7 +10,7 @@ export const register = async (req, res) => {
   const hashed = await bcrypt.hash(password, 10);
 
   const user = await pool.query(
-    "INSERT INTO users VALUES ($1,$2,$3,$4,$5) RETURNING *",
+    "INSERT INTO users VALUES ($1,$2,$3,$4,$5, $6) RETURNING *",
     [uuidv4(), name, email, hashed, userRole, new Date().toISOString()],
   );
 
