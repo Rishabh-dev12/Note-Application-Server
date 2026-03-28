@@ -9,19 +9,12 @@ export const register = async (req, res) => {
 
   const hashed = await bcrypt.hash(password, 10);
 
-  try {
-    const user = await pool.query(
-      `INSERT INTO users (id, name, email, password, role)
-       VALUES ($1, $2, $3, $4, $5)
-       RETURNING *`,
-      [uuidv4(), name, email, hashed, userRole],
-    );
+  const user = await pool.query(
+    "INSERT INTO users (id, name, email, password, role) VALUES ($1,$2,$3,$4,$5) RETURNING *",
+    [uuidv4(), name, email, hashed, userRole],
+  );
 
-    res.json(user.rows[0]);
-  } catch (err) {
-    console.error(err);
-    res.status(500).json({ msg: "Registration failed" });
-  }
+  res.json(user.rows[0]);
 };
 
 export const login = async (req, res) => {
@@ -43,3 +36,4 @@ export const login = async (req, res) => {
 export const logout = async (req, res) => {
   res.json({ msg: "Logged out successfully" });
 };
+
