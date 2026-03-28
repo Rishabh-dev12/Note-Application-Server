@@ -6,7 +6,7 @@ const router = express.Router();
 
 router.post("/createNote", verifyToken, authorizeRoles("admin", "editor"), createNote);
 router.post("/getNotes", getNotes);
-router.put("/updateNote/:id", verifyToken, authorizeRoles("admin", "editor"), updateNote);
-router.delete("/deleteNote/:id", verifyToken, authorizeRoles("admin", "editor"), deleteNote);
+router.post("/updateNote/:id", verifyToken, authorizeRoles("admin", "editor"), updateNote);
+router.post("/deleteNote/:id", verifyToken, authorizeRoles("admin", "editor"), deleteNote);
 
 export default router;
