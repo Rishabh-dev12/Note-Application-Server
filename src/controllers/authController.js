@@ -34,7 +34,6 @@ export const login = async (req, res) => {
 };
 
 export const logout = async (req, res) => {
-  // Since we use stateless JWTs, we just tell the client to delete its token.
   res.json({ msg: "Logged out successfully" });
 };
 
