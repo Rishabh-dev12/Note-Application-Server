@@ -35,13 +35,26 @@ app.use("/", notesRoutes);
 
 const initDB = async () => {
   try {
+    await pool.query(`CREATE EXTENSION IF NOT EXISTS "pgcrypto";`);
+
     await pool.query(`
       CREATE TABLE IF NOT EXISTS users (
-        id UUID PRIMARY KEY,
+        id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
         name VARCHAR(100),
         email VARCHAR(100) UNIQUE NOT NULL,
         password TEXT NOT NULL,
         created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+      );
+    `);
+
+    await pool.query(`
+      CREATE TABLE IF NOT EXISTS notes (
+        id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+        title VARCHAR(255) NOT NULL,
+        content TEXT,
+        owner_id UUID NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+        updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
       );
     `);
 
